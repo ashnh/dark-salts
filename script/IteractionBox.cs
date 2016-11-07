@@ -2,13 +2,14 @@
 using System.Collections;
 
 public class IteractionBox : MonoBehaviour {
+
+	public JumpBox jumpBox;
+
 	// false for left, true for right
 	public bool leftOrRight;
 
 	// enemy list initialization (might want to move to void start)
 	ArrayList enemies = new ArrayList();
-
-	int enemiesTouching;
 
 	// Update is called once per frame
 	void Update () {
@@ -18,37 +19,28 @@ public class IteractionBox : MonoBehaviour {
 			foreach (Collider2D enemy in enemies) {
 				// prevents null entries from stopping the loop
 				if (enemy != null) {
-					if (enemy.IsTouching (GetComponentInParent <Collider2D> ())) {
-						enemiesTouching++;
-					}
 					Destroy (enemy.gameObject);
 				}
 			}
 			// clears list for next click
 			enemies.Clear ();
 
-			GetComponentInParent <Player> ().triggersIn -= GetComponentInParent <Player> ().leftDestructibleTriggersIn;
-			GetComponentInParent <Player> ().triggersIn -= GetComponentInParent <Player> ().bothDestructibleTriggersIn;
-			GetComponentInParent <Player> ().bothDestructibleTriggersIn = 0;
-			GetComponentInParent <Player> ().leftDestructibleTriggersIn = 0;
+			foreach (Collider2D collider in jumpBox.collidersTouching) {
+				if (collider == null) {
+					jumpBox.collidersTouching.Remove (collider);
+				}
+			}
+				
 		} else if (leftOrRight && (Input.GetMouseButtonDown (1) || Input.GetKeyDown (KeyCode.RightArrow))) {
 			//destroys all enemies in the arraylist
 			foreach (Collider2D enemy in enemies) {
 				// prevents null entries from stopping the loop
 				if (enemy != null) {
-					if (enemy.IsTouching (GetComponentInParent <Collider2D> ())) {
-						enemiesTouching++;
-					}
 					Destroy (enemy.gameObject);
 				}
 			}
 			// clears list for next click
 			enemies.Clear ();
-
-			GetComponentInParent <Player> ().triggersIn -= GetComponentInParent <Player> ().rightDestructibleTriggersIn;
-			GetComponentInParent <Player> ().triggersIn -= GetComponentInParent <Player> ().bothDestructibleTriggersIn;
-			GetComponentInParent <Player> ().bothDestructibleTriggersIn = 0;
-			GetComponentInParent <Player> ().rightDestructibleTriggersIn = 0;
 
 		}
 	}
@@ -63,35 +55,11 @@ public class IteractionBox : MonoBehaviour {
 		} else if (other.tag == "rightEnemy" && leftOrRight) {
 			enemies.Add (other);
 		}
-		GetComponentInParent <Player> ().triggersIn --;
-		if (other.tag == "enemy" ) {
-			GetComponentInParent <Player> ().bothDestructibleTriggersIn--;
-		}
-		if (other.tag == "rightEnemy") {
-			GetComponentInParent <Player> ().rightDestructibleTriggersIn--;
-		}
-		if (other.tag == "leftEnemy") {
-			GetComponentInParent <Player> ().leftDestructibleTriggersIn--;
-		}
-		if (other.tag == "sliderObject") {
-			GetComponentInParent <Player> ().sliderObjectsIn--;
-		}
+
 	}
 
 	void OnTriggerExit2D (Collider2D other) {
-		GetComponentInParent <Player> ().triggersIn ++;
-		if (other.tag == "enemy" ) {
-			GetComponentInParent <Player> ().bothDestructibleTriggersIn++;
-		}
-		if (other.tag == "rightEnemy") {
-			GetComponentInParent <Player> ().rightDestructibleTriggersIn++;
-		}
-		if (other.tag == "leftEnemy") {
-			GetComponentInParent <Player> ().leftDestructibleTriggersIn++;
-		}
-		if (other.tag == "sliderObject") {
-			GetComponentInParent <Player> ().sliderObjectsIn++;
-		}
+
 	}
 
 }

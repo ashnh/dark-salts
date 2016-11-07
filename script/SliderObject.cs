@@ -34,7 +34,7 @@ public class SliderObject : MonoBehaviour {
 
 		if (gameObject.GetComponent <Collider2D> ().IsTouching (player)) {
 			player.gameObject.GetComponent <Player> ().groundSpeed = GetComponent <Rigidbody2D> ().velocity.x;
-		} else if (player.gameObject.GetComponent <Player> ().sliderObjectsIn < 1) {
+		} else if (player.gameObject.GetComponentInChildren<JumpBox> ().sliders <= 0) {
 			player.gameObject.GetComponent <Player> ().groundSpeed = 0;
 		}
 

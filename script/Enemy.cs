@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour {
 	// damages on enter
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.tag == "Player" && !entered) {
-			other.GetComponentInParent <Player> ().health--;
+			other.GetComponentInParent <Player> ().health = 0;
 			entered = true;
 		}
 	}
