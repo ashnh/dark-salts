@@ -26,6 +26,7 @@ public class IteractionBox : MonoBehaviour {
 			enemies.Clear ();
 
 			foreach (Collider2D collider in jumpBox.collidersTouching) {
+				// removes null entries from the triggers in box
 				if (collider == null) {
 					jumpBox.collidersTouching.Remove (collider);
 				}
@@ -42,6 +43,13 @@ public class IteractionBox : MonoBehaviour {
 			// clears list for next click
 			enemies.Clear ();
 
+			
+			foreach (Collider2D collider in jumpBox.collidersTouching) {
+				// removes null entries from the triggers in box
+				if (collider == null) {
+					jumpBox.collidersTouching.Remove (collider);
+				}
+			}
 		}
 	}
 
@@ -58,8 +66,5 @@ public class IteractionBox : MonoBehaviour {
 
 	}
 
-	void OnTriggerExit2D (Collider2D other) {
-
-	}
 
 }
