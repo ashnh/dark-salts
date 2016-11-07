@@ -16,10 +16,6 @@ public class Player : MonoBehaviour {
 	public int levelTo;
 
 	public float groundSpeed;
-
-	// Use this for initialization
-	void Start () {
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -57,10 +53,7 @@ public class Player : MonoBehaviour {
 
 	}
 
-	// jump tally system (somewhat overcomplicated but prevents large mess ups)
 	void OnTriggerEnter2D (Collider2D other) {
-		// prevents wall climbing
-
 		// exit detection
 		if (other.tag == "exit") {
 			exitTriggersIn++;
@@ -69,8 +62,6 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerExit2D (Collider2D other) {
-		// prevents wall climbing
-
 		// exit detection
 		if (other.tag == "exit") {
 			exitTriggersIn--;
