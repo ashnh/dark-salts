@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
 	public int exitTriggersIn;
 	public int levelTo;
 
-	public float groundSpeed;
+	public float groundSpeedX;
 	
 	// Update is called once per frame
 	void Update () {
@@ -29,11 +29,11 @@ public class Player : MonoBehaviour {
 		}
 		// left and right movement
 		if (Input.GetKey (KeyCode.A)) {
-			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeed, GetComponent<Rigidbody2D> ().velocity.y);
+			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		} else if (Input.GetKey (KeyCode.D)) {
-			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeed, GetComponent<Rigidbody2D> ().velocity.y);
+			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		} else {
-			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeed, GetComponent<Rigidbody2D> ().velocity.y);
+			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		}
 
 		// prototype respawn
