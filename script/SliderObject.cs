@@ -17,12 +17,10 @@ public class SliderObject : MonoBehaviour {
 	public Collider2D player;
 
 	float initPosX;
-	float initPosY;
 
 	// Use this for initialization
 	void Start () {
 		initPosX = transform.position.x;
-		initPosY = transform.position.y;
 	}
 	
 	// Update is called once per frame
