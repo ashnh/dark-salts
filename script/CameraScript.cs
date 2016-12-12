@@ -6,11 +6,18 @@ public class CameraScript : MonoBehaviour {
 	// player object
 	public GameObject player;
 
+	bool inBox;
+
 	// left, right, up, and down constraints
 	public float groundLevelElevation;
 	public float roofLevelElevation;
 	public float leftWallConstraint;
 	public float rightWallConstraint;
+
+	public float groundIn;
+	public float roofIn;
+	public float leftIn;
+	public float rightIn;
 
 	// floats for camera positions
 	float cameraX;
@@ -39,7 +46,16 @@ public class CameraScript : MonoBehaviour {
 		} else {
 			cameraX = player.transform.position.x;
 		}
+
+		if (player.transform.position.y > groundIn && player.transform.position.y < roofIn && player.transform.position.x > leftIn && player.transform.position.x < rightIn) {
+			inBox = true;
+		} else {
+			inBox = false;
+		}
+
 		// camera positioning
-		transform.position = new Vector3 (cameraX, cameraY, -10);
+		if (inBox) {
+			transform.position = new Vector3 (cameraX, cameraY, -10);
+		}
 	}
 }
