@@ -35,4 +35,9 @@ public class JumpBox : MonoBehaviour {
 
 	}
 
+
+	void Update () {
+		Debug.Log (sliders);
+	}
+
 }

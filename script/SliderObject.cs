@@ -5,9 +5,6 @@ public class SliderObject : MonoBehaviour {
 	// true : right; false: left
 	public bool leftOrRight;
 
-	//true: up, false: down
-	public bool upOrDown;
-
 	public float movingSpeedX;
 
 	public float leftConstraint;
@@ -47,8 +44,12 @@ public class SliderObject : MonoBehaviour {
 		//handles player groundspeed
 		if (gameObject.GetComponent <Collider2D> ().IsTouching (player)) {
 			player.gameObject.GetComponent <Player> ().groundSpeedX = GetComponent <Rigidbody2D> ().velocity.x;
+			Debug.Log ("using velocity");
 		} else if (player.gameObject.GetComponentInChildren<JumpBox> ().sliders <= 0) {
 			player.gameObject.GetComponent <Player> ().groundSpeedX = 0;
+			Debug.Log ("isn't touching");
+		} else {
+			Debug.Log ("thinks it's in other sliders");
 		}
 
 	}

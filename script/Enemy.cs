@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour {
 
 	// damages on enter
 	void OnTriggerEnter2D (Collider2D other) {
-		if (other.tag == "Player" && !entered) {
+		if (other.tag == "Player" && !entered && other.tag != "interactionBox" && other.tag != "jumpBox") {
 			other.GetComponentInParent <Player> ().health = 0;
 			entered = true;
 		}
@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour {
 
 	// resets on exit
 	void OnTriggerExit2D (Collider2D other) {
-		if (other.tag == "Player") {
+		if (other.tag == "Player" && other.tag != "interactionBox" && other.tag != "jumpBox") {
 			entered = false;
 		}
 	}
