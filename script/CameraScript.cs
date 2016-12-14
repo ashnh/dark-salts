@@ -22,11 +22,6 @@ public class CameraScript : MonoBehaviour {
 	// floats for camera positions
 	float cameraX;
 	float cameraY;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
