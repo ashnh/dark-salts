@@ -43,6 +43,7 @@ public class Player : MonoBehaviour {
 
 		// exit use
 		if (exitTriggersIn > 0 && Input.GetKeyDown (KeyCode.Space)) {
+			PlayerPrefs.SetInt ("level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex.ToString() + " loaded", 1);
 			UnityEngine.SceneManagement.SceneManager.LoadScene (levelTo);
 		}
 
