@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SliderObject : MonoBehaviour {
+public class SlidingEnemyObject : MonoBehaviour {
 	// true : right; false: left
 	public bool leftOrRight;
 
@@ -15,13 +15,21 @@ public class SliderObject : MonoBehaviour {
 
 	float initPosX;
 
+	float currentRotation = 0;
+
 	// Use this for initialization
 	void Start () {
 		initPosX = transform.position.x;
 	}
+
+	void rotate (float targetRotation) {
+		gameObject.transform.Rotate (0, 0, 360 + currentRotation + targetRotation);
+		currentRotation = targetRotation;
+	}
 	
 	// Update is called once per frame
-	void Update () {
+
+	public void Update () {
 
 		// decides horizontal direction
 		if (transform.position.x < leftConstraint) {
@@ -30,18 +38,14 @@ public class SliderObject : MonoBehaviour {
 			leftOrRight = false;
 		}
 
-		// handles x velocity
 		if (leftOrRight) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (movingSpeedX, GetComponent <Rigidbody2D> ().velocity.y);
+			rotate (180);
 		} else {
+			rotate (0);
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-movingSpeedX, GetComponent <Rigidbody2D> ().velocity.y);
 		}
 
-		if (movingSpeedX == 0) { 
-			transform.position = new Vector2 (initPosX, transform.position.y);
-		}
-
-		//handles player groundspeed
 		if (gameObject.GetComponent <Collider2D> ().IsTouching (player)) {
 			player.gameObject.GetComponent <Player> ().groundSpeedX = GetComponent <Rigidbody2D> ().velocity.x;
 		} else if (player.gameObject.GetComponentInChildren<JumpBox> ().sliders <= 0) {
@@ -49,5 +53,4 @@ public class SliderObject : MonoBehaviour {
 		}
 
 	}
-
 }

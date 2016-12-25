@@ -32,11 +32,11 @@ public class WompumScript : MonoBehaviour {
 			theState = state.ATTACKING;
 		}
 
-		if (((transform.position.y >= stopPoint && upOrDown) || (transform.position.y <= stopPoint && !upOrDown)) && theState == state.ATTACKING) {
+		if (((transform.position.y >= stopPoint && upOrDown) || (transform.position.y <= stopPoint && !upOrDown)) && (theState == state.ATTACKING)) {
 			theState = state.RECOILING;
 		}
 
-		if (((transform.position.y <= startPoint && upOrDown) || (transform.position.y >= startPoint && !upOrDown)) && theState == state.RECOILING) {
+		if (((transform.position.y <= startPoint && upOrDown) || (transform.position.y >= startPoint && !upOrDown)) && (theState == state.RECOILING)) {
 			theState = state.INACTIVE;
 		}
 
@@ -48,11 +48,6 @@ public class WompumScript : MonoBehaviour {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (0, recoilSpeed);
 		}
 
-		Debug.Log (theState);
-
-		Debug.Log ("first condition is " + (player.transform.position.x <= transform.position.x + proximityToReact));
-
-		Debug.Log ("Second condition is " + (player.transform.position.x >= transform.position.x - proximityToReact));
 
 	}
 }
