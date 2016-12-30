@@ -22,15 +22,15 @@ public class Player : MonoBehaviour {
 		
 	// movement
 		// jump movement
-		if (Input.GetKeyDown (KeyCode.W)) {
+		if (Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.JoystickButton1)) {
 			if (jumpBox.collidersTouching.Count > 0) {
 				GetComponent <Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed);
 			}
 		}
 		// left and right movement
-		if (Input.GetKey (KeyCode.A)) {
+		if (Input.GetKey (KeyCode.A) || Input.GetAxis ("movement") == -1) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
-		} else if (Input.GetKey (KeyCode.D)) {
+		} else if (Input.GetKey (KeyCode.D) || Input.GetAxis ("movement") == 1) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		} else {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
@@ -42,13 +42,9 @@ public class Player : MonoBehaviour {
 		}
 
 		// exit use
-		if (exitTriggersIn > 0 && Input.GetKeyDown (KeyCode.Space)) {
+		if (exitTriggersIn > 0 && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.JoystickButton0))) {
 			PlayerPrefs.SetInt ("level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex.ToString() + " loaded", 1);
 			UnityEngine.SceneManagement.SceneManager.LoadScene (levelTo);
-		}
-
-		if (Input.GetKey (KeyCode.R)) {
-			UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
 		}
 
 

@@ -14,7 +14,7 @@ public class IteractionBox : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// determination of right or left box
-		if (!leftOrRight && (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.LeftArrow))) {
+		if (!leftOrRight && (Input.GetMouseButtonDown (0) || Input.GetKeyDown (KeyCode.LeftArrow) || Input.GetKeyDown (KeyCode.JoystickButton4))) {
 			//destroys all enemies in the arraylist
 			foreach (Collider2D enemy in enemies) {
 				// prevents null entries from stopping the loop
@@ -32,7 +32,7 @@ public class IteractionBox : MonoBehaviour {
 				}
 			}
 				
-		} else if (leftOrRight && (Input.GetMouseButtonDown (1) || Input.GetKeyDown (KeyCode.RightArrow))) {
+		} else if (leftOrRight && (Input.GetMouseButtonDown (1) || Input.GetKeyDown (KeyCode.RightArrow) || Input.GetKeyDown (KeyCode.JoystickButton5))) {
 			//destroys all enemies in the arraylist
 			foreach (Collider2D enemy in enemies) {
 				// prevents null entries from stopping the loop
