@@ -16,7 +16,7 @@ public class WompumScript : MonoBehaviour {
 
 	public float proximityToReact;
 
-	enum state { ATTACKING, RECOILING, INACTIVE};
+	enum state {ATTACKING, RECOILING, INACTIVE};
 
 	state theState;
 

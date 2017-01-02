@@ -53,8 +53,4 @@ public class SliderEnemy : MonoBehaviour {
 			
 	}
 
-	// might need later. remove if not
-	void OnTriggerExit2D (Collider2D other) {
-		
-	}
 }
