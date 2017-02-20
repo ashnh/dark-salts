@@ -12,11 +12,22 @@ public class Player : MonoBehaviour {
 
 	public int levelInt;
 
+	// works exits and et c.
 	public int exitTriggersIn;
 	public int levelTo;
 
+	// speed of the floating platform
 	public float groundSpeedX;
-	
+
+	// respawn coordinates
+	public float checkpointY;
+	public float checkpointX;
+
+	void Start () {
+		checkpointY = 0;
+		checkpointX = 0;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -38,7 +49,11 @@ public class Player : MonoBehaviour {
 
 		// prototype respawn
 		if (health <= 0 || Input.GetKey (KeyCode.R)) {
-			UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+			if (checkpointX == 0 && checkpointY == 0) {	
+				UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex);
+			} else {
+				transform.position = new Vector3 (checkpointX, checkpointY, 0);
+			}
 		}
 
 		// exit use
