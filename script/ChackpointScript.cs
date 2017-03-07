@@ -15,8 +15,8 @@ public class ChackpointScript : MonoBehaviour {
 
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.tag == "Player") {
-			other.GetComponentInParent<Player> ().checkpointX = transform.position.x;
-			other.GetComponentInParent<Player> ().checkpointY = transform.position.y;
+			PlayerPrefs.SetFloat ("checkY", transform.position.y);
+			PlayerPrefs.SetFloat ("checkX", transform.position.x);
 		}
 	}
 

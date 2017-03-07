@@ -19,18 +19,15 @@ public class Player : MonoBehaviour {
 	// speed of the floating platform
 	public float groundSpeedX;
 
-	// respawn coordinates
-	public float checkpointY;
-	public float checkpointX;
-
 	void Start () {
-		checkpointY = 0;
-		checkpointX = 0;
+		if (PlayerPrefs.GetFloat ("checkY") != 0 && PlayerPrefs.GetFloat ("checkX") != 0) {
+			transform.position = new Vector3 (PlayerPrefs.GetFloat("checkX"), PlayerPrefs.GetFloat("checkY"), 0);
+		}
 	}
 
 	// Update is called once per frame
 	void Update () {
-		
+
 	// movement
 		// jump movement
 		if (Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.JoystickButton1)) {
@@ -47,19 +44,22 @@ public class Player : MonoBehaviour {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		}
 
-		// prototype respawn
+		//respawn
 		if (health <= 0 || Input.GetKey (KeyCode.R)) {
-			if (checkpointX == 0 && checkpointY == 0) {	
-				UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex);
-			} else {
-				transform.position = new Vector3 (checkpointX, checkpointY, 0);
-			}
+			UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex);
 		}
 
 		// exit use
 		if (exitTriggersIn > 0 && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.JoystickButton0))) {
 			PlayerPrefs.SetInt ("level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex.ToString() + " loaded", 1);
+			PlayerPrefs.SetFloat ("checkY", 0F);
+			PlayerPrefs.SetFloat ("checkX", 0F);
 			UnityEngine.SceneManagement.SceneManager.LoadScene (levelTo);
+		}
+
+		if (Input.GetKey (KeyCode.C)) {
+			PlayerPrefs.SetFloat ("checkY", 0);
+			PlayerPrefs.SetFloat ("checkX", 0);
 		}
 
 

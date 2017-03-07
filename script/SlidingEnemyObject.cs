@@ -13,13 +13,11 @@ public class SlidingEnemyObject : MonoBehaviour {
 
 	public Collider2D player;
 
-	float initPosX;
-
 	float currentRotation = 0;
 
 	// Use this for initialization
 	void Start () {
-		initPosX = transform.position.x;
+		
 	}
 
 	void rotate (float targetRotation) {
