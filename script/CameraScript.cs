@@ -50,7 +50,7 @@ public class CameraScript : MonoBehaviour {
 
 		// camera positioning
 		if (inBox) {
-			transform.position = new Vector3 (cameraX, cameraY, -10);
+			transform.position = new Vector3 (cameraX, cameraY, -20);
 		}
 	}
 }
