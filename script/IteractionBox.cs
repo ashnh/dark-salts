@@ -4,6 +4,14 @@ using System.Collections;
 public class IteractionBox : MonoBehaviour {
 
 	public JumpBox jumpBox;
+	
+	public Sprite markedDestLeft;
+	public Sprite markedDestRight;
+	public Sprite markedDestBoth;
+	
+	public GameObject leftDestAnim;
+	public GameObject rightDestAnim;
+	public GameObject bothDestAnim;
 
 	// false for left, true for right
 	public bool leftOrRight;
@@ -19,6 +27,13 @@ public class IteractionBox : MonoBehaviour {
 			foreach (Collider2D enemy in enemies) {
 				// prevents null entries from stopping the loop
 				if (enemy != null) {
+					if (enemy.tag == "enemy") {
+						Instantiate (bothDestAnim, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+					} else if (enemy.tag == "leftEnemy") {
+						Instantiate (leftDestAnim, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+					} else if (enemy.tag == "rightEnemy") {
+						Instantiate (rightDestAnim, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+					}
 					Destroy (enemy.gameObject);
 				}
 			}
@@ -37,6 +52,13 @@ public class IteractionBox : MonoBehaviour {
 			foreach (Collider2D enemy in enemies) {
 				// prevents null entries from stopping the loop
 				if (enemy != null) {
+					if (enemy.tag == "enemy") {
+						Instantiate (bothDestAnim, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+					} else if (enemy.tag == "leftEnemy") {
+						Instantiate (leftDestAnim, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+					} else if (enemy.tag == "rightEnemy") {
+						Instantiate (rightDestAnim, enemy.gameObject.transform.position, enemy.gameObject.transform.rotation);
+					}
 					Destroy (enemy.gameObject);
 				}
 			}
@@ -57,11 +79,14 @@ public class IteractionBox : MonoBehaviour {
 		// enemy collision detection
 		if (other.tag == "enemy") {
 			enemies.Add (other);
+			other.GetComponentInParent<SpriteRenderer> ().image = markedDestBoth;
 		}
 		if (other.tag == "leftEnemy" && !leftOrRight) {
 			enemies.Add (other);
+			other.GetComponentInParent<SpriteRenderer> ().image = markedDestLeft;
 		} else if (other.tag == "rightEnemy" && leftOrRight) {
 			enemies.Add (other);
+			other.GetComponentInParent<SpriteRenderer> ().image = markedDestRight;
 		}
 
 	}
