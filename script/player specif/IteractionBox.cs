@@ -25,12 +25,12 @@ public class IteractionBox : MonoBehaviour {
 			// clears list for next click
 			enemies.Clear ();
 
-			foreach (Collider2D collider in jumpBox.collidersTouching) {
+			//foreach (Collider2D collider in jumpBox.collidersTouching) {
 				// removes null entries from the triggers in box
-				if (collider == null) {
-					jumpBox.collidersTouching.Remove (collider);
-				}
-			}
+				//if (collider == null) {
+				//	jumpBox.collidersTouching.Remove (collider);
+				//}
+		//	}
 				
 		} else if (leftOrRight && (Input.GetMouseButtonDown (1) || Input.GetKeyDown (KeyCode.RightArrow) || Input.GetKeyDown (KeyCode.JoystickButton5))) {
 			//destroys all enemies in the arraylist
@@ -44,12 +44,12 @@ public class IteractionBox : MonoBehaviour {
 			enemies.Clear ();
 
 			
-			foreach (Collider2D collider in jumpBox.collidersTouching) {
+			//foreach (Collider2D collider in jumpBox.collidersTouching) {
 				// removes null entries from the triggers in box
-				if (collider == null) {
-					jumpBox.collidersTouching.Remove (collider);
-				}
-			}
+			//	if (collider == null) {
+			//		jumpBox.collidersTouching.Remove (collider);
+			//	}
+			//}
 		}
 	}
 
