@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+	
+	public Animator anim;
 
 	public JumpBox jumpBox;
 
@@ -60,6 +62,18 @@ public class Player : MonoBehaviour {
 		if (Input.GetKey (KeyCode.C)) {
 			PlayerPrefs.SetFloat ("checkY", 0);
 			PlayerPrefs.SetFloat ("checkX", 0);
+		}
+		
+		if (getComponent <Rigidbody2D> ().velocity.y >= 0.1) {
+			anim.setInt ("state", 3);
+		} else if (getComponent <Rigidbody2D> ().velocity.y <= -0.1) {
+			anim.setInt ("state", 4);
+		} else if (getComponent <Rigidbody2D> ().velocity.x <= -0.1) {
+			anim.setInt ("state", 1);
+		} else if (getComponent <Rigidbody2D> ().velocity.x >= 0.1) {
+			anim.setInt ("state", 2);
+		} else {
+			anim.setInt ("state", 0);
 		}
 
 
