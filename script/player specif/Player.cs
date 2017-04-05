@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-	
-	public Animator anim;
 
 	public JumpBox jumpBox;
 
@@ -32,15 +30,15 @@ public class Player : MonoBehaviour {
 
 	// movement
 		// jump movement
-		if (Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.JoystickButton1)) {
+		if (Input.GetKeyDown (KeyCode.W)) {
 			if (jumpBox.collidersTouching.Count > 0) {
 				GetComponent <Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed);
 			}
 		}
 		// left and right movement
-		if (Input.GetKey (KeyCode.A) || Input.GetAxis ("movement") == -1) {
+		if (Input.GetKey (KeyCode.A)) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
-		} else if (Input.GetKey (KeyCode.D) || Input.GetAxis ("movement") == 1) {
+		} else if (Input.GetKey (KeyCode.D)) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		} else {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
@@ -52,28 +50,15 @@ public class Player : MonoBehaviour {
 		}
 
 		// exit use
-		if (exitTriggersIn > 0 && (Input.GetKeyDown (KeyCode.Space) || Input.GetKeyDown (KeyCode.JoystickButton0))) {
+		if (exitTriggersIn > 0 && (Input.GetKeyDown (KeyCode.Space))) {
 			PlayerPrefs.SetInt ("level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex.ToString() + " loaded", 1);
 			PlayerPrefs.SetFloat ("checkY", 0F);
 			PlayerPrefs.SetFloat ("checkX", 0F);
-			UnityEngine.SceneManagement.SceneManager.LoadScene (levelTo);
 		}
 
 		if (Input.GetKey (KeyCode.C)) {
 			PlayerPrefs.SetFloat ("checkY", 0);
 			PlayerPrefs.SetFloat ("checkX", 0);
-		}
-		
-		if (getComponent <Rigidbody2D> ().velocity.y >= 0.1) {
-			anim.setInt ("state", 3);
-		} else if (getComponent <Rigidbody2D> ().velocity.y <= -0.1) {
-			anim.setInt ("state", 4);
-		} else if (getComponent <Rigidbody2D> ().velocity.x <= -0.1) {
-			anim.setInt ("state", 1);
-		} else if (getComponent <Rigidbody2D> ().velocity.x >= 0.1) {
-			anim.setInt ("state", 2);
-		} else {
-			anim.setInt ("state", 0);
 		}
 
 
