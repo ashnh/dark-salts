@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
+	public Animator anim;
+
 	public JumpBox jumpBox;
 
 	public float jumpSpeed;
@@ -29,19 +31,30 @@ public class Player : MonoBehaviour {
 	void Update () {
 
 	// movement
+
+		// left and right movement
+		if (Input.GetKey (KeyCode.A)) {
+			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
+
+			// left movement processing animation
+
+		} else if (Input.GetKey (KeyCode.D)) {
+			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
+
+			// right movement processing animation
+
+		} else {
+			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
+		}
+
 		// jump movement
 		if (Input.GetKeyDown (KeyCode.W)) {
 			if (jumpBox.collidersTouching.Count > 0) {
 				GetComponent <Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed);
+
+				// jump processing animation
+
 			}
-		}
-		// left and right movement
-		if (Input.GetKey (KeyCode.A)) {
-			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
-		} else if (Input.GetKey (KeyCode.D)) {
-			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
-		} else {
-			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		}
 
 		//respawn
@@ -60,6 +73,8 @@ public class Player : MonoBehaviour {
 			PlayerPrefs.SetFloat ("checkY", 0);
 			PlayerPrefs.SetFloat ("checkX", 0);
 		}
+
+
 
 
 	}
