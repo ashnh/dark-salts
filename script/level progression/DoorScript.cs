@@ -6,13 +6,18 @@ public class DoorScript : MonoBehaviour {
 	int players;
 	float firstTime;
 
+	public bool autoTurnOn;
+
+	// contains warp information
+	public int levelInt;
+
 	void Start () {
 		players = 0;
 		firstTime = -10000;
 	}
 
 	void Update() {
-		if (players > 0 && Input.GetKey (KeyCode.Space) && firstTime == -10000) {
+		if (players > 0 && (Input.GetKey (KeyCode.Space) || autoTurnOn) && firstTime == -10000) {
 			firstTime = Time.timeSinceLevelLoad;
 		}
 		if (firstTime > Time.timeSinceLevelLoad - 2) {
@@ -21,9 +26,6 @@ public class DoorScript : MonoBehaviour {
 			UnityEngine.SceneManagement.SceneManager.LoadScene (levelInt);
 		}
 	}
-
-	// contains warp information
-	public int levelInt;
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag == "Player") {

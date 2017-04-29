@@ -21,10 +21,14 @@ public class Player : MonoBehaviour {
 	// speed of the floating platform
 	public float groundSpeedX;
 
+	// false left, true right
+	bool facing;
+
 	void Start () {
 		if (PlayerPrefs.GetFloat ("checkY") != 0 && PlayerPrefs.GetFloat ("checkX") != 0) {
 			transform.position = new Vector3 (PlayerPrefs.GetFloat("checkX"), PlayerPrefs.GetFloat("checkY"), 0);
 		}
+		facing = true;
 	}
 
 	// Update is called once per frame
@@ -35,14 +39,10 @@ public class Player : MonoBehaviour {
 		// left and right movement
 		if (Input.GetKey (KeyCode.A)) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
-
-			// left movement processing animation
-
+			facing = false;
 		} else if (Input.GetKey (KeyCode.D)) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
-
-			// right movement processing animation
-
+			facing = true;
 		} else {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 		}
@@ -52,9 +52,36 @@ public class Player : MonoBehaviour {
 			if (jumpBox.collidersTouching.Count > 0) {
 				GetComponent <Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed);
 
-				// jump processing animation
-
 			}
+		}
+
+		//animation controller
+		if (Input.GetKeyDown (KeyCode.W)) {
+			if (facing) {
+				anim.Play ("jump start");
+			} else {
+				anim.Play ("jump start left");
+			}
+		} else if (GetComponent<Rigidbody2D> ().velocity.y < 0 && !(jumpBox.collidersTouching.Count > 0)) {
+			if (facing) {
+				anim.Play ("transistion");
+			} else {
+				anim.Play ("transistion left");
+			}
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("transistion") || anim.GetCurrentAnimatorStateInfo (0).IsName("transistion left") || anim.GetCurrentAnimatorStateInfo (0).IsName("descending") || anim.GetCurrentAnimatorStateInfo (0).IsName("descending left")) && jumpBox.collidersTouching.Count > 0) {
+			if (facing) {
+				anim.Play ("landing");
+			} else {
+				anim.Play ("landing left");
+			}
+		} else if (Input.GetKey (KeyCode.A) && !anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) {
+			anim.Play ("left start");
+		} else if (Input.GetKey (KeyCode.D) && !anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) {
+			anim.Play ("right start");
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("right start") || anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) && !Input.GetKey (KeyCode.D)) {
+			anim.Play ("right end");
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("left start") || anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) && !Input.GetKey (KeyCode.A)) {
+			anim.Play ("left stop");
 		}
 
 		//respawn
@@ -73,8 +100,6 @@ public class Player : MonoBehaviour {
 			PlayerPrefs.SetFloat ("checkY", 0);
 			PlayerPrefs.SetFloat ("checkX", 0);
 		}
-
-
 
 
 	}
