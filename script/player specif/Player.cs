@@ -24,11 +24,27 @@ public class Player : MonoBehaviour {
 	// false left, true right
 	bool facing;
 
+	bool moveLeft;
+	bool moveRight;
+
+	int loaded;
+
+	public void SetMoveLeft (bool set) {
+		moveLeft = set;
+	}
+
+	public void SetMoveRight (bool set) {
+		moveRight = set;
+	}
+
 	void Start () {
+		loaded = 0;
 		if (PlayerPrefs.GetFloat ("checkY") != 0 && PlayerPrefs.GetFloat ("checkX") != 0) {
 			transform.position = new Vector3 (PlayerPrefs.GetFloat("checkX"), PlayerPrefs.GetFloat("checkY"), 0);
 		}
 		facing = true;
+		moveLeft = false;
+		moveRight = false;
 	}
 
 	// Update is called once per frame
@@ -37,14 +53,21 @@ public class Player : MonoBehaviour {
 	// movement
 
 		// left and right movement
-		if (Input.GetKey (KeyCode.A)) {
+		if (Input.GetKey (KeyCode.A) || moveLeft) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 			facing = false;
-		} else if (Input.GetKey (KeyCode.D)) {
+		} else if (Input.GetKey (KeyCode.D) || moveRight) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 			facing = true;
 		} else {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
+		}
+
+		if (Input.GetKey (KeyCode.LeftBracket)) {
+			while (loaded <= 30) {
+				loaded++;
+				PlayerPrefs.SetInt ("level " + loaded + " loaded", 0);
+			}
 		}
 
 		// jump movement
@@ -74,13 +97,13 @@ public class Player : MonoBehaviour {
 			} else {
 				anim.Play ("landing left");
 			}
-		} else if (Input.GetKey (KeyCode.A) && !anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) {
+		} else if ((Input.GetKey (KeyCode.A) || moveLeft) && !anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) {
 			anim.Play ("left start");
-		} else if (Input.GetKey (KeyCode.D) && !anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) {
+		} else if ((Input.GetKey (KeyCode.D) || moveRight) && !anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) {
 			anim.Play ("right start");
-		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("right start") || anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) && !Input.GetKey (KeyCode.D)) {
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("right start") || anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) && !(Input.GetKey (KeyCode.D)|| moveLeft)) {
 			anim.Play ("right end");
-		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("left start") || anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) && !Input.GetKey (KeyCode.A)) {
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("left start") || anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) && !(Input.GetKey (KeyCode.A)|| moveLeft)) {
 			anim.Play ("left stop");
 		}
 

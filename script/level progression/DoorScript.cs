@@ -20,7 +20,7 @@ public class DoorScript : MonoBehaviour {
 		if (players > 0 && (Input.GetKey (KeyCode.Space) || autoTurnOn) && firstTime == -10000) {
 			firstTime = Time.timeSinceLevelLoad;
 		}
-		if (firstTime > Time.timeSinceLevelLoad - 2) {
+		if ((firstTime > Time.timeSinceLevelLoad - 2) && !autoTurnOn) {
 			gameObject.transform.localScale = new Vector3 (transform.localScale.x + 1f, transform.localScale.y + 1f, 0f);
 		} else if (firstTime != -10000) {
 			UnityEngine.SceneManagement.SceneManager.LoadScene (levelInt);
@@ -30,6 +30,7 @@ public class DoorScript : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag == "Player") {
 			players++;
+
 		}
 	}
 
