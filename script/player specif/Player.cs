@@ -27,6 +27,8 @@ public class Player : MonoBehaviour {
 	bool moveLeft;
 	bool moveRight;
 
+	bool playerControls;
+
 	int loaded;
 
 	public void SetMoveLeft (bool set) {
@@ -37,7 +39,12 @@ public class Player : MonoBehaviour {
 		moveRight = set;
 	}
 
+	public void setControl (bool set) {
+		playerControls = set;
+	}
+
 	void Start () {
+		playerControls = true;
 		loaded = 0;
 		if (PlayerPrefs.GetFloat ("checkY") != 0 && PlayerPrefs.GetFloat ("checkX") != 0) {
 			transform.position = new Vector3 (PlayerPrefs.GetFloat("checkX"), PlayerPrefs.GetFloat("checkY"), 0);
@@ -53,10 +60,10 @@ public class Player : MonoBehaviour {
 	// movement
 
 		// left and right movement
-		if (Input.GetKey (KeyCode.A) || moveLeft) {
+		if ((Input.GetKey (KeyCode.A) && playerControls) || moveLeft) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (-runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 			facing = false;
-		} else if (Input.GetKey (KeyCode.D) || moveRight) {
+		} else if ((Input.GetKey (KeyCode.D) && playerControls) || moveRight) {
 			GetComponent <Rigidbody2D> ().velocity = new Vector2 (runSpeed + groundSpeedX, GetComponent<Rigidbody2D> ().velocity.y);
 			facing = true;
 		} else {
@@ -71,7 +78,7 @@ public class Player : MonoBehaviour {
 		}
 
 		// jump movement
-		if (Input.GetKeyDown (KeyCode.W)) {
+		if ((Input.GetKeyDown (KeyCode.W) && playerControls)) {
 			if (jumpBox.collidersTouching.Count > 0) {
 				GetComponent <Rigidbody2D> ().velocity = new Vector2 (GetComponent<Rigidbody2D> ().velocity.x, jumpSpeed);
 
@@ -79,7 +86,7 @@ public class Player : MonoBehaviour {
 		}
 
 		//animation controller
-		if (Input.GetKeyDown (KeyCode.W)) {
+		if ((Input.GetKeyDown (KeyCode.W) && playerControls)) {
 			if (facing) {
 				anim.Play ("jump start");
 			} else {
@@ -97,23 +104,23 @@ public class Player : MonoBehaviour {
 			} else {
 				anim.Play ("landing left");
 			}
-		} else if ((Input.GetKey (KeyCode.A) || moveLeft) && !anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) {
+		} else if (((Input.GetKey (KeyCode.A) && playerControls) || moveLeft) && !anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) {
 			anim.Play ("left start");
-		} else if ((Input.GetKey (KeyCode.D) || moveRight) && !anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) {
+		} else if (((Input.GetKey (KeyCode.D) && playerControls) || moveRight) && !anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) {
 			anim.Play ("right start");
-		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("right start") || anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) && !(Input.GetKey (KeyCode.D)|| moveLeft)) {
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("right start") || anim.GetCurrentAnimatorStateInfo (0).IsName("right continuous")) && !((Input.GetKey (KeyCode.D) && playerControls) || moveRight)) {
 			anim.Play ("right end");
-		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("left start") || anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) && !(Input.GetKey (KeyCode.A)|| moveLeft)) {
+		} else if ((anim.GetCurrentAnimatorStateInfo (0).IsName("left start") || anim.GetCurrentAnimatorStateInfo (0).IsName("left continuous")) && !((Input.GetKey (KeyCode.A) && playerControls) || moveLeft)) {
 			anim.Play ("left stop");
 		}
 
 		//respawn
-		if (health <= 0 || Input.GetKey (KeyCode.R)) {
+		if (health <= 0 || (Input.GetKey (KeyCode.R) && playerControls)) {
 			UnityEngine.SceneManagement.SceneManager.LoadScene (UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex);
 		}
 
 		// exit use
-		if (exitTriggersIn > 0 && (Input.GetKeyDown (KeyCode.Space))) {
+		if (exitTriggersIn > 0 && ((Input.GetKeyDown (KeyCode.Space) && playerControls))) {
 			PlayerPrefs.SetInt ("level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene ().buildIndex.ToString() + " loaded", 1);
 			PlayerPrefs.SetFloat ("checkY", 0F);
 			PlayerPrefs.SetFloat ("checkX", 0F);
